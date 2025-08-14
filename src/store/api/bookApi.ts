@@ -19,3 +19,5 @@ export const bookApi = createApi({
     }),
   }),
 });
+
+export const { useSearchBooksQuery, useGetBookDetailsQuery, useLazySearchBooksQuery } = bookApi;
