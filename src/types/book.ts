@@ -25,7 +25,6 @@ export interface BookDetails {
 export interface ViewedBook {
   key: string;
   title: string;
-  author_name?: string;
+  author_name?: string[];
   cover_i?: number;
-  viewedAt: string;
 }

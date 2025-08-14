@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useBookSearch } from '../../hooks/useBookSearch.ts';
 import { formatAuthorNames, getBookCoverUrl } from '../../utils';
+import { useViewedBooks } from '../../context/ViewedBooksContext.tsx';
 
 export const Search = () => {
   const [query, setQuery] = useState('');
   const { searchResults, isLoading, error, searchBooks } = useBookSearch();
+  const { addViewedBook, viewedBooks } = useViewedBooks();
 
   const handleSearch = () => {
     searchBooks(query);
@@ -41,9 +43,21 @@ export const Search = () => {
                 <h4>{book.title}</h4>
                 <h5>{formatAuthorNames(book.author_name)}</h5>
                 {book.cover_i && <img src={getBookCoverUrl(book.cover_i)} alt={book.title} />}
+                <button type="button" className="mt-2 bg-gray-100 text-xs" onClick={() => addViewedBook(book)}>
+                  Add to Viewed
+                </button>
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {viewedBooks.length > 0 && (
+        <div className="mt-4 mb-4">
+          <div className="mb-2">Viewed Books</div>
+          {viewedBooks.map((book) => (
+            <h1 key={book.key}>{book.title}</h1>
+          ))}
         </div>
       )}
     </div>
