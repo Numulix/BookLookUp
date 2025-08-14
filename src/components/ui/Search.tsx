@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useBookSearch } from '../../hooks/useBookSearch.ts';
+import { formatAuthorNames, getBookCoverUrl } from '../../utils';
 
 export const Search = () => {
   const [query, setQuery] = useState('');
@@ -35,8 +36,12 @@ export const Search = () => {
         <div className="card p-6">
           <h3 className="mb-4 text-lg font-semibold">Search Results</h3>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {searchResults.slice(0, 10).map((book) => (
-              <h4 key={book.key}>{book.title}</h4>
+            {searchResults.slice(0, 9).map((book) => (
+              <div key={book.key}>
+                <h4>{book.title}</h4>
+                <h5>{formatAuthorNames(book.author_name)}</h5>
+                {book.cover_i && <img src={getBookCoverUrl(book.cover_i)} alt={book.title} />}
+              </div>
             ))}
           </div>
         </div>

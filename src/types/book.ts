@@ -7,9 +7,9 @@ export interface BookSearchResponse {
 export interface BookSearchResult {
   key: string;
   title: string;
-  author_name?: string;
+  author_name?: string[];
   first_publish_year?: number;
-  cover_i?: string;
+  cover_i?: number;
   ia: string[];
 }
 
