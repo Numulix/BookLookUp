@@ -1,5 +1,6 @@
 import { BookList, SearchBar } from '../components/ui';
 import { useBookSearch } from '../hooks/useBookSearch.ts';
+import { ViewedBooksList } from '../features/ViewedBooksList.tsx';
 
 export const LandingPage = () => {
   const { searchResults, isLoading, error, searchBooks, clearSearch } = useBookSearch();
@@ -23,6 +24,10 @@ export const LandingPage = () => {
               showViewedIndicator={true}
             />
           )}
+        </div>
+
+        <div className="lg:col-span-1">
+          <ViewedBooksList />
         </div>
       </div>
     </>
