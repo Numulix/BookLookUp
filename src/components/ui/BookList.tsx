@@ -47,7 +47,7 @@ export const BookList = ({
   if (books.length === 0) {
     return (
       <div className="py-12 text-center">
-        <div className="mb-4 text-6xl">📚</div>
+        <div className="mt-6 mb-4 text-6xl">📚</div>
         <p className="text-lg text-gray-600">{emptyMessage}</p>
       </div>
     );

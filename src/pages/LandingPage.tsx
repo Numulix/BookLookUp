@@ -15,15 +15,13 @@ export const LandingPage = () => {
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
-          {(searchResults.length > 0 || isLoading || error) && (
-            <BookList
-              books={searchResults}
-              isLoading={isLoading}
-              error={error}
-              emptyMessage="No books found."
-              showViewedIndicator={true}
-            />
-          )}
+          <BookList
+            books={searchResults}
+            isLoading={isLoading}
+            error={error}
+            emptyMessage="No books found."
+            showViewedIndicator={true}
+          />
         </div>
 
         <div className="lg:col-span-1">

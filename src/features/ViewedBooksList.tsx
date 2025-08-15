@@ -37,7 +37,7 @@ export const ViewedBooksList = () => {
         </h2>
       </div>
 
-      <div className="max-h-96 space-y-3 overflow-y-auto">
+      <div className="max-h-96 space-y-3 overflow-y-auto rounded-xl border border-gray-500 shadow-md">
         {viewedBooks.map((book) => {
           const coverUrl = getBookCoverUrl(book.cover_i);
 
