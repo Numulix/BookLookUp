@@ -12,14 +12,20 @@ interface UseBookSearchReturn {
 
 export const useBookSearch = (): UseBookSearchReturn => {
   const [searchResults, setSearchResults] = useState<BookSearchResult[]>([]);
-  const [trigger, { isLoading, error }] = useLazySearchBooksQuery();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [trigger] = useLazySearchBooksQuery();
 
   const searchBooks = useCallback(
     async (query: string) => {
       if (!query.trim()) {
         setSearchResults([]);
+        setError(null);
         return;
       }
+
+      setIsLoading(true);
+      setError(null);
 
       try {
         const result = await trigger(query.trim()).unwrap();
@@ -27,12 +33,19 @@ export const useBookSearch = (): UseBookSearchReturn => {
       } catch (err) {
         console.error('Search failed:', err);
         setSearchResults([]);
+        setError('Failed to search books. Please try again');
+      } finally {
+        setIsLoading(false);
       }
     },
     [trigger]
   );
 
-  const clearSearch = useCallback(() => setSearchResults([]), []);
+  const clearSearch = useCallback(() => {
+    setSearchResults([]);
+    setError(null);
+    setIsLoading(false);
+  }, []);
 
   return {
     searchResults,

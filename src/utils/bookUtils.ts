@@ -22,3 +22,7 @@ export const formatAuthorNames = (authorNames?: string[]): string => {
 
   return 'Unknown author';
 };
+
+export const extractBookId = (key: string): string => {
+  return key.replace('/works/', '');
+};

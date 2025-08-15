@@ -63,7 +63,7 @@ export const SearchBar = ({
       </div>
 
       {isLoading && (
-        <div className="absolute top-full right-0 left-0 mt-1 flex items-center justify-center">
+        <div className="top-full right-0 left-0 mt-1 mb-4 flex items-center justify-center">
           <div className="flex items-center gap-2 text-sm text-gray-600">
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-600 border-t-transparent" />
             Searching...
