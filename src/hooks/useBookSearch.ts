@@ -12,12 +12,14 @@ interface UseBookSearchReturn {
   prevPage: () => void;
   currentPage: number;
   currentQuery: string;
+  totalPages: number;
 }
 
 export const useBookSearch = (): UseBookSearchReturn => {
   const [searchResults, setSearchResults] = useState<BookSearchResult[]>([]);
   const [currentQuery, setCurrentQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [trigger] = useLazySearchBooksWithPageQuery();
@@ -26,6 +28,7 @@ export const useBookSearch = (): UseBookSearchReturn => {
     async (query: string, page: number) => {
       if (!query.trim()) {
         setSearchResults([]);
+        setTotalPages(0);
         setError(null);
         return;
       }
@@ -35,7 +38,8 @@ export const useBookSearch = (): UseBookSearchReturn => {
 
       try {
         const result = await trigger({ title: query.trim(), page }).unwrap();
-        setSearchResults(result);
+        setTotalPages(result.total);
+        setSearchResults(result.books);
       } catch (err) {
         console.error('Search failed:', err);
         setSearchResults([]);
@@ -51,6 +55,7 @@ export const useBookSearch = (): UseBookSearchReturn => {
     (query: string) => {
       setCurrentQuery(query);
       setCurrentPage(1);
+      setTotalPages(0);
       performSearch(query, 1);
     },
     [performSearch]
@@ -60,6 +65,7 @@ export const useBookSearch = (): UseBookSearchReturn => {
     setSearchResults([]);
     setCurrentPage(1);
     setCurrentQuery('');
+    setTotalPages(0);
     setError(null);
     setIsLoading(false);
   }, []);
@@ -90,5 +96,6 @@ export const useBookSearch = (): UseBookSearchReturn => {
     prevPage,
     currentPage,
     currentQuery,
+    totalPages,
   };
 };

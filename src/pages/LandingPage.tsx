@@ -3,7 +3,7 @@ import { useBookSearch } from '../hooks/useBookSearch.ts';
 import { ViewedBooksList } from '../features/ViewedBooksList.tsx';
 
 export const LandingPage = () => {
-  const { searchResults, isLoading, error, searchBooks, clearSearch, nextPage, prevPage, currentPage } =
+  const { searchResults, isLoading, error, searchBooks, clearSearch, nextPage, prevPage, currentPage, totalPages } =
     useBookSearch();
 
   return (
@@ -35,12 +35,15 @@ export const LandingPage = () => {
                 Previous
               </button>
 
-              <span className="text-sm text-gray-600">Page {currentPage}</span>
+              <span className="text-sm text-gray-600">
+                Page {currentPage} of {totalPages}
+              </span>
 
               <button
                 type="button"
                 onClick={nextPage}
-                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none"
+                disabled={currentPage === totalPages}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Next
               </button>

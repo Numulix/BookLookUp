@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery, type FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
-import type { Author, BookDetails, BookSearchResponse, BookSearchResult } from '../../types';
+import type { Author, BookDetails, BookSearchResponse, BookSearchResult, BookSearchResultWithTotal } from '../../types';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -15,9 +15,14 @@ export const bookApi = createApi({
       transformResponse: (response: BookSearchResponse) => response.docs.filter((book) => book.cover_i),
       providesTags: ['Books'],
     }),
-    searchBooksWithPage: builder.query<BookSearchResult[], { title: string; page: number }>({
+    searchBooksWithPage: builder.query<BookSearchResultWithTotal, { title: string; page: number }>({
       query: ({ title, page }) => `search.json?title=${encodeURIComponent(title)}&page=${page}&limit=${ITEMS_PER_PAGE}`,
-      transformResponse: (response: BookSearchResponse) => response.docs.filter((book) => book.cover_i),
+      transformResponse: (response: BookSearchResponse) => {
+        return {
+          total: Math.ceil(response.numFound / ITEMS_PER_PAGE),
+          books: response.docs.filter((book) => book.cover_i),
+        };
+      },
       providesTags: ['Books'],
     }),
     getBookDetails: builder.query<BookDetails, string>({

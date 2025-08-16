@@ -35,3 +35,8 @@ export interface Author {
   bio?: { type: string; value: string };
   birth_date?: string;
 }
+
+export interface BookSearchResultWithTotal {
+  total: number;
+  books: BookSearchResult[];
+}
