@@ -19,7 +19,7 @@ export const BookDetailsPage = () => {
   const { data: authors, isLoading: isLoadingAuthors } = useGetAuthorsByKeysQuery(authorKeys, { skip: !authorKeys });
 
   const firstAuthor = authors?.[0];
-  const additionalAuthorsCount = authors ? authors.length : 0;
+  const additionalAuthorsCount = authors ? authors.length - 1 : 0;
 
   useEffect(() => {
     if (book && id && authors && authors.length > 0) {
