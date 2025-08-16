@@ -17,7 +17,7 @@ export const SearchBar = ({
 }: SearchBarProps) => {
   const [inputValue, setInputValue] = useState('');
 
-  const debouncedSearch = useDebounceCallback(onSearch, 300);
+  const debouncedSearch = useDebounceCallback(onSearch, 500);
 
   useEffect(() => {
     if (inputValue.trim()) {

@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery, type FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import type { Author, BookDetails, BookSearchResponse, BookSearchResult } from '../../types';
 
+const ITEMS_PER_PAGE = 5;
+
 export const bookApi = createApi({
   reducerPath: 'bookApi',
   baseQuery: fetchBaseQuery({
@@ -10,6 +12,11 @@ export const bookApi = createApi({
   endpoints: (builder) => ({
     searchBooks: builder.query<BookSearchResult[], string>({
       query: (title) => `search.json?title=${encodeURIComponent(title)}`,
+      transformResponse: (response: BookSearchResponse) => response.docs.filter((book) => book.cover_i),
+      providesTags: ['Books'],
+    }),
+    searchBooksWithPage: builder.query<BookSearchResult[], { title: string; page: number }>({
+      query: ({ title, page }) => `search.json?title=${encodeURIComponent(title)}&page=${page}&limit=${ITEMS_PER_PAGE}`,
       transformResponse: (response: BookSearchResponse) => response.docs.filter((book) => book.cover_i),
       providesTags: ['Books'],
     }),
@@ -49,5 +56,9 @@ export const bookApi = createApi({
   }),
 });
 
-export const { useSearchBooksQuery, useGetBookDetailsQuery, useLazySearchBooksQuery, useGetAuthorsByKeysQuery } =
-  bookApi;
+export const {
+  useLazySearchBooksWithPageQuery,
+  useGetBookDetailsQuery,
+  useLazySearchBooksQuery,
+  useGetAuthorsByKeysQuery,
+} = bookApi;

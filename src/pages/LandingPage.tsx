@@ -3,7 +3,8 @@ import { useBookSearch } from '../hooks/useBookSearch.ts';
 import { ViewedBooksList } from '../features/ViewedBooksList.tsx';
 
 export const LandingPage = () => {
-  const { searchResults, isLoading, error, searchBooks, clearSearch } = useBookSearch();
+  const { searchResults, isLoading, error, searchBooks, clearSearch, nextPage, prevPage, currentPage } =
+    useBookSearch();
 
   return (
     <>
@@ -22,6 +23,29 @@ export const LandingPage = () => {
             emptyMessage="No books found."
             showViewedIndicator={true}
           />
+
+          {searchResults.length > 0 && !isLoading && (
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <button
+                onClick={prevPage}
+                disabled={currentPage === 1}
+                type="button"
+                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Previous
+              </button>
+
+              <span className="text-sm text-gray-600">Page {currentPage}</span>
+
+              <button
+                type="button"
+                onClick={nextPage}
+                className="rounded-lg border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-50 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="lg:col-span-1">
