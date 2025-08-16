@@ -26,3 +26,7 @@ export const formatAuthorNames = (authorNames?: string[]): string => {
 export const extractBookId = (key: string): string => {
   return key.replace('/works/', '');
 };
+
+export const extractAuthorId = (key: string): string => {
+  return key.replace('/authors/', '');
+};
