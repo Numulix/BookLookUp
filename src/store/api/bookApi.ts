@@ -49,8 +49,10 @@ export const bookApi = createApi({
             return {
               key: author.key,
               name: author.name,
-              bio: { type: author.bio?.type || '', value: author.bio?.value || '' },
+              alternate_names: author.alternate_names || [],
+              bio: author.bio || '',
               birth_date: author.birth_date || '',
+              photos: author.photos || [],
             };
           })
           .filter((author) => !!author);

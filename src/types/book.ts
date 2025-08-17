@@ -32,8 +32,10 @@ export interface ViewedBook {
 export interface Author {
   key: string;
   name: string;
-  bio?: { type: string; value: string };
+  alternate_names?: string[];
+  bio?: { type: string; value: string } | string;
   birth_date?: string;
+  photos?: number[];
 }
 
 export interface BookSearchResultWithTotal {

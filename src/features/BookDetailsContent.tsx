@@ -71,7 +71,12 @@ export const BookDetailsContent = ({
                     </div>
                   ) : firstAuthor ? (
                     <div>
-                      <span className="text-lg">by {firstAuthor.name}</span>
+                      <span className="text-lg">
+                        by {firstAuthor.name}{' '}
+                        {firstAuthor.alternate_names &&
+                          firstAuthor.alternate_names.length > 0 &&
+                          `(${firstAuthor.alternate_names.join(', ')})`}
+                      </span>
                       {additionalAuthorsCount > 0 && (
                         <div className="mt-1 text-sm text-gray-500">
                           {additionalAuthorsCount === 1
@@ -91,7 +96,7 @@ export const BookDetailsContent = ({
               <div>
                 <h2 className="mb-3 text-xl font-semibold text-gray-900">Description</h2>
                 <div className="prose prose-gray max-w-none">
-                  <p className="leading-relaxed text-gray-700">{description}</p>
+                  <p className="leading-relaxed whitespace-pre-line text-gray-700">{description}</p>
                 </div>
               </div>
             )}
@@ -135,6 +140,47 @@ export const BookDetailsContent = ({
           </div>
         </div>
       </div>
+
+      {firstAuthor && firstAuthor.bio && (
+        <div className="p-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div className="md:col-span-2">
+              <div>
+                <h1 className="mb-2 text-3xl font-bold text-gray-900">About {firstAuthor.name}</h1>
+              </div>
+
+              <div>
+                <h2 className="mb-3 text-xl font-semibold text-gray-900">Biography</h2>
+                <h3 className="text-md mb-3 text-gray-600">Born {firstAuthor.birth_date}</h3>
+                <div className="prose prose-gray max-w-none">
+                  {typeof firstAuthor.bio === 'string' ? (
+                    <p className="leading-relaxed text-gray-700">{firstAuthor.bio}</p>
+                  ) : (
+                    <p className="leading-relaxed text-gray-700">{firstAuthor.bio.value}</p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6 md:col-span-1">
+              {firstAuthor.photos && firstAuthor.photos.length > 0 ? (
+                <img
+                  src={getBookCoverUrl(firstAuthor.photos[0])}
+                  alt={`Cover of ${firstAuthor.name}`}
+                  className="mx-auto w-full max-w-sm rounded-lg shadow-lg"
+                />
+              ) : (
+                <div className="mx-auto flex h-96 w-full max-w-sm items-center justify-center rounded-lg bg-gray-200">
+                  <div className="text-center">
+                    <UserIcon className="mx-auto mb-2 h-16 w-16 text-gray-400" />
+                    <p className="text-gray-500">No Photo Available</p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
