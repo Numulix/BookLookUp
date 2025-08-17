@@ -7,6 +7,7 @@ import type { ViewedBook } from '../types';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { BookDetailsError, BookDetailsLoading } from '../components/ui';
 import { BookDetailsContent } from '../features/BookDetailsContent.tsx';
+import { useDocumentTitle } from 'usehooks-ts';
 
 export const BookDetailsPage = () => {
   const { id } = useParams();
@@ -20,6 +21,8 @@ export const BookDetailsPage = () => {
 
   const firstAuthor = authors?.[0];
   const additionalAuthorsCount = authors ? authors.length - 1 : 0;
+
+  useDocumentTitle(book?.title ? `${book.title} | Book Look Up` : 'Book Look Up');
 
   useEffect(() => {
     if (book && id && authors && authors.length > 0) {

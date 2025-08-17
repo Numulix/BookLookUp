@@ -1,10 +1,13 @@
 import { BookList, SearchBar } from '../components/ui';
 import { useBookSearch } from '../hooks/useBookSearch.ts';
 import { ViewedBooksList } from '../features/ViewedBooksList.tsx';
+import { useDocumentTitle } from 'usehooks-ts';
 
 export const LandingPage = () => {
   const { searchResults, isLoading, error, searchBooks, clearSearch, nextPage, prevPage, currentPage, totalPages } =
     useBookSearch();
+
+  useDocumentTitle('Book Look Up');
 
   return (
     <>
