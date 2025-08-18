@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDebounceCallback } from 'usehooks-ts';
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 
@@ -7,6 +7,7 @@ interface SearchBarProps {
   onClear: () => void;
   isLoading?: boolean;
   placeholder?: string;
+  currentQuery?: string;
 }
 
 export const SearchBar = ({
@@ -14,10 +15,19 @@ export const SearchBar = ({
   onClear,
   isLoading = false,
   placeholder = 'Search for books by title',
+  currentQuery = '',
 }: SearchBarProps) => {
   const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
+  const wasLoading = useRef(false);
 
   const debouncedSearch = useDebounceCallback(onSearch, 500);
+
+  useEffect(() => {
+    if (currentQuery !== inputValue) {
+      setInputValue(currentQuery);
+    }
+  }, [currentQuery]);
 
   useEffect(() => {
     if (inputValue.trim()) {
@@ -27,9 +37,19 @@ export const SearchBar = ({
     }
   }, [inputValue, debouncedSearch, onClear]);
 
+  useEffect(() => {
+    if (wasLoading.current && !isLoading && inputRef.current) {
+      inputRef.current.focus();
+    }
+    wasLoading.current = isLoading;
+  }, [isLoading]);
+
   const handleClear = () => {
     setInputValue('');
     onClear();
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
   };
 
   return (
@@ -43,6 +63,7 @@ export const SearchBar = ({
 
         <input
           type="text"
+          ref={inputRef}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           className="block w-full rounded-lg border border-gray-300 py-3 pr-12 pl-10 text-lg text-gray-900 placeholder-gray-500 transition-all duration-200 focus:border-transparent focus:ring-2"

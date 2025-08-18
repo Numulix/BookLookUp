@@ -4,8 +4,18 @@ import { ViewedBooksList } from '../features/ViewedBooksList.tsx';
 import { useDocumentTitle } from 'usehooks-ts';
 
 export const LandingPage = () => {
-  const { searchResults, isLoading, error, searchBooks, clearSearch, nextPage, prevPage, currentPage, totalPages } =
-    useBookSearch();
+  const {
+    searchResults,
+    isLoading,
+    error,
+    searchBooks,
+    clearSearch,
+    nextPage,
+    prevPage,
+    currentPage,
+    totalPages,
+    currentQuery,
+  } = useBookSearch();
 
   useDocumentTitle('Book Look Up');
 
@@ -15,7 +25,7 @@ export const LandingPage = () => {
         <h2 className="mb-4 text-3xl font-semibold text-gray-800">Welcome to Book Look Up 📚👀⬆️</h2>
         <p className="mx-auto max-w-2xl text-gray-600">Look up books using the Open Library API</p>
       </div>
-      <SearchBar onSearch={searchBooks} onClear={clearSearch} isLoading={isLoading} />
+      <SearchBar onSearch={searchBooks} onClear={clearSearch} isLoading={isLoading} currentQuery={currentQuery} />
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2">
